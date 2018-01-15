@@ -1,3 +1,5 @@
+# Go through Travis-CI flow.
+
 language: python
 python:
   - '2.7'
