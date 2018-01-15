@@ -1,0 +1,34 @@
+language: python
+python:
+  - '2.7'
+
+sudo: false
+
+env:
+  # Toolchains
+  ARM_TOOLCHAIN_URL="https://launchpad.net/gcc-arm-embedded/5.0/5-2016-q3-update/+download/gcc-arm-none-eabi-5_4-2016q3-20160926-mac.tar.bz2"
+  ESP8266_TOOLCHAIN_URL="http://arduino.esp8266.com/linux64-xtensa-lx106-elf.tar.gz"
+  ESP32_TOOLCHAIN_URL="https://dl.espressif.com/dl/xtensa-esp32-elf-linux64-1.22.0-61-gab8375a-5.2.0.tar.gz"
+  TOOLCHAIN_DIR="${HOME}/toolchain"
+  ESP8266_BINDIR="${TOOLCHAIN_DIR}/xtensa-lx106-elf/bin"
+  ESP32_BINDIR="${TOOLCHAIN_DIR}/xtensa-esp32-elf/bin"
+  ARM_BINDIR="${TOOLCHAIN_DIR}/gcc-arm-none-eabi/bin"
+
+  PATH="${PATH}:${ARM_BINDIR}:${ESP8266_BINDIR}:${ESP32_BINDIR}"
+
+install:
+  - echo '[install]'
+  - pwd
+  - cd ${HOME}
+  - mkdir -p ${TOOLCHAIN_DIR}
+  - wget ${ESP32_TOOLCHAIN_URL} -O xtensa-esp32-elf-linux64.tar.gz
+  - tar xaf xtensa-esp32-elf-linux64.tar.gz -C ${TOOLCHAIN_DIR}
+  - pip install aos-cube pyserial
+
+before_script:
+  - echo '[before_script]'
+
+script:
+  - echo '[script]'
+  - cd ${TRAVIS_BUILD_DIR}
+  - aos make -e helloworld@esp32devkitc
