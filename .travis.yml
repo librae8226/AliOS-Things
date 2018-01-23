@@ -17,25 +17,16 @@ env:
   PATH="${PATH}:${ARM_BINDIR}:${ESP8266_BINDIR}:${ESP32_BINDIR}"
 
 before_install:
-  - echo '[before_install]'
-  - sudo apt update -qq
-  - sudo apt install -qq gcc-multilib libssl-dev libssl-dev:i386 libncurses5-dev libncurses5-dev:i386 libreadline-dev libreadline-dev:i386
+  - echo '<before_install>'
 
 install:
-  - echo '[install]'
+  - echo '<install>'
   - pwd
   - cd ${HOME}
   - mkdir -p ${TOOLCHAIN_DIR}
-  - wget ${ARM_TOOLCHAIN_URL} -O gcc-arm-none-eabi.tar.bz2
-  - tar xaf gcc-arm-none-eabi.tar.bz2 && mv gcc-arm-none-eabi-7-2017-q4-major ${TOOLCHAIN_DIR}/gcc-arm-none-eabi
-  - wget ${ESP8266_TOOLCHAIN_URL} -O linux64-xtensa-lx106-elf.tar.gz
-  - tar xaf linux64-xtensa-lx106-elf.tar.gz -C ${TOOLCHAIN_DIR}
-  - wget ${ESP32_TOOLCHAIN_URL} -O xtensa-esp32-elf-linux64.tar.gz
-  - tar xaf xtensa-esp32-elf-linux64.tar.gz -C ${TOOLCHAIN_DIR}
-  - pip install aos-cube pyserial
 
 before_script:
-  - echo '[before_script]'
+  - echo '<before_script>'
   - cd ${TRAVIS_BUILD_DIR}
   - echo "export PATH=""${PATH}" >> ~/.bashrc
   - echo ${TRAVIS_COMMIT}
@@ -43,8 +34,12 @@ before_script:
   - echo ${TRAVIS_JOB_NUMBER}
 
 script:
-  - ./build/autobuild.sh
-  - aos make alinkapp@mk3060 meshdebug=1 && aos make alinkapp@esp32devkitc meshdebug=1
+  - echo '<script>'
 
-deploy:
-  - ./deploy.sh
+after_success:
+  - echo '<after_success>'
+  - pip install oss2
+  - find ./out -maxdepth 2 -type d -name libraries -o -name modules | xargs rm -r
+  - tar caf aos.bins.${TRAVIS_JOB_NUMBER}.tar ./out
+  - bzip2 aos.bins.${TRAVIS_JOB_NUMBER}.tar
+  - ls -lh
