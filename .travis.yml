@@ -17,12 +17,10 @@ env:
   PATH="${PATH}:${ARM_BINDIR}:${ESP8266_BINDIR}:${ESP32_BINDIR}"
 
 before_install:
-  - echo '[before_install]'
   - sudo apt update -qq
   - sudo apt install -qq gcc-multilib libssl-dev libssl-dev:i386 libncurses5-dev libncurses5-dev:i386 libreadline-dev libreadline-dev:i386
 
 install:
-  - echo '[install]'
   - pwd
   - cd ${HOME}
   - mkdir -p ${TOOLCHAIN_DIR}
@@ -35,7 +33,6 @@ install:
   - pip install aos-cube pyserial
 
 before_script:
-  - echo '[before_script]'
   - cd ${TRAVIS_BUILD_DIR}
   - echo "export PATH=""${PATH}" >> ~/.bashrc
   - echo ${TRAVIS_COMMIT}
@@ -46,5 +43,12 @@ script:
   - ./build/autobuild.sh
   - aos make alinkapp@mk3060 meshdebug=1 && aos make alinkapp@esp32devkitc meshdebug=1
 
-deploy:
-  - ./deploy.sh
+after_success:
+  - pip install oss2
+  - find ./out -maxdepth 2 -type d -name libraries -o -name modules | xargs rm -r
+  - AOS_TARBALL=aos.${TRAVIS_BRANCH}.`echo ${TRAVIS_COMMIT} | head -c7`.${TRAVIS_PULL_REQUEST}
+  - tar caf ${AOS_TARBALL}.tar ./out
+  - bzip2 ${AOS_TARBALL}.tar
+  - DIRNAME=`if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then echo push; else echo pr; fi`
+  - python ./tools/ci/oss-uploader.py ./${AOS_TARBALL}.tar.bz2 ${DIRNAME}/${AOS_TARBALL}.tar.bz2
+  - ls -lh
