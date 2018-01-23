@@ -52,3 +52,4 @@ after_success:
   - pip install oss2
   - python ./tools/ci/oss-uploader.py ./${AOS_TARBALL}.tar.bz2 ${DIRNAME}/${AOS_TARBALL}.tar.bz2
   - ls -lh ${AOS_TARBALL}.tar.bz2
+  - echo 'pr test'
