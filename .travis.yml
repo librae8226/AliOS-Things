@@ -43,3 +43,4 @@ after_success:
   - tar caf aos.bins.${TRAVIS_JOB_NUMBER}.tar ./out
   - bzip2 aos.bins.${TRAVIS_JOB_NUMBER}.tar
   - ls -lh
+  - echo 'test pull request'
