@@ -17,23 +17,10 @@ env:
   - secure: E5yAtle8UsMwr8yKZq0PHwuhC15RcwhuYNbUr3VbXoNjEX49JR8eENSuVhYPvAHkILVkHTe+1E+bfhly2FmVVPflFol4QVkPzYjsnBgZ3VG5B8zKWso0CONh31kwcmfTmCJBsxM5n2C4XTrlguLHbndnBfDQc9oK4crihzIWVG+eHhOv43C0tNiqvOUGoEv5zKHrt+kaAmAmce31J0fQUTnb4V7GXVrRC0w4DDAFTcSZ0z5Ty2mrKiZOkmKkeXUinTOMCgRft/TshXXTfE9vwBbEVCKXUJv3Wfh55dyfwrMVh3P7YgJdL0caSQnsno0HXNtkTHqi7RSPusjlmKmSgLkCZhzDNEbzZeBAcTIyfXBmOskKiMjuZCuhxCUo7kboQ+7DN9S/mx9rX42xzlzP+U2ZKkbnEYCJm+6H3KTv3z+Wl/mteqpPKLQQmd9OcQSN6d6oyw1vEuKLVXpGau2dEhh7NWESpoRw1tro19SJO8D9905h075unW1maCH6Y42Odv23Q8qMJuLVVVpH7hJrOdGt/ZpkxzIXwxcRxMENwrcSeReRiUnvL8y7A0UcLQAQaqcMtYFaZtt6OH7x/Uax6qJtCo7XU37G1fBs+l4R/SUsMHeqq+LQooUfTIZRuiDtIzdMD2T984Wx+oP+YBuNBs/iJwzbJ4imawE/rsRFofM=
   - secure: Rkli+MoRTkpvyonM1lLgK2LEpSi4/OUUaCMEian3G8H3129v5OtSt9n7QC6LTymW/IvFAq+eXLu+B7zZV/59kWDLjFB4Si5eLGINRZWenYOtKrLkie+yw87FdSnM2hVWzTkNmuodkwiHozXMUeybjBevR22yqN4mJ1fVcAHpBmbTaeiBfTLLw/jTRyFM7eZ26P4gC7gY4Rw6iTWrqmR3DRgcgV2ow0OzwGkicKItDY2K6EHNNgSlqoSlwNsWY0fdZ1CEwf4CpfzJmitXd4WbpVHwb0lf3nlUcFST+xAugJgb0fvTX5zbjslcTqrNWfCu5YlsvKrt2afjWbMp4MFJ11I/JJ3JZwF/mPJ99ycOWKVi922EXYyshA7F08XRblZp+qWG6NKPQXy82QoKv2zXTxVEm28CoAvhfF+V5o3vXxnBxBerCmS02mDa1X+OKPZF+3stO9NTDVLut7XQPxVwXRk4Qr9OlqKMWaiIQWcp9x36SRa8h3pKGoDIDOx9WAPhfi88lqzJJU5RmXJxzfmBRwle5bN2s1eP2Ascb8HdFOWPGqL/uGZVvIKJTbBw8uqdI/H4rlnDETE/1in1quoqX91R2lWqkcOPBNDrBanvitoAacnluiviCb6TotME4FpbkmJlJ3vdxGy2UF6CDUF+Dc2q/bpru0JLMSRveBftqhs=
 before_install:
-- sudo apt update -qq
-- while [ $? -ne 0 ]; do sudo apt update -qq; done
-- sudo apt install -qq gcc-multilib
-- sudo apt install -qq libssl-dev libssl-dev:i386
-- sudo apt install -qq libncurses5-dev libncurses5-dev:i386
-- sudo apt install -qq libreadline-dev libreadline-dev:i386
+- echo ${aos_key}
+- echo ${aos_sec}
 install:
 - pwd
-- cd ${HOME}
-- mkdir -p ${TOOLCHAIN_DIR}
-- wget ${ARM_TOOLCHAIN_URL} -O gcc-arm-none-eabi.tar.bz2
-- tar xaf gcc-arm-none-eabi.tar.bz2 && mv gcc-arm-none-eabi-5_4-2016q3 ${TOOLCHAIN_DIR}/gcc-arm-none-eabi
-- wget ${ESP8266_TOOLCHAIN_URL} -O linux64-xtensa-lx106-elf.tar.gz
-- tar xaf linux64-xtensa-lx106-elf.tar.gz -C ${TOOLCHAIN_DIR}
-- wget ${ESP32_TOOLCHAIN_URL} -O xtensa-esp32-elf-linux64.tar.gz
-- tar xaf xtensa-esp32-elf-linux64.tar.gz -C ${TOOLCHAIN_DIR}
-- pip install aos-cube pyserial
 before_script:
 - cd ${TRAVIS_BUILD_DIR}
 - echo "export PATH=""${PATH}" >> ~/.bashrc
@@ -41,15 +28,6 @@ before_script:
 - echo ${TRAVIS_PULL_REQUEST}
 - echo ${TRAVIS_JOB_NUMBER}
 script:
-- bash ./tools/prebuild/prebuild.sh
-- ls -lh ./prebuild
+- echo "skip script"
 after_success:
-- if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then DIRNAME=push MARK=push; else DIRNAME=pr
-  MARK=${TRAVIS_PULL_REQUEST}; fi
-- AOS_TARBALL=aos.${TRAVIS_BRANCH}.`echo ${TRAVIS_COMMIT} | head -c7`.${MARK}
-- mv prebuild ${AOS_TARBALL}
-- tar caf ${AOS_TARBALL}.tar ./${AOS_TARBALL}
-- gzip ${AOS_TARBALL}.tar
-- pip install oss2
-- python ./tools/ci/oss-uploader.py ./${AOS_TARBALL}.tar.gz ${DIRNAME}/${AOS_TARBALL}.tar.gz
-- ls -lh ${AOS_TARBALL}.tar.gz
+- echo "skip after"
