@@ -31,3 +31,6 @@ script:
 - echo "skip script"
 after_success:
 - echo "skip after"
+- echo 123 > tmp.txt
+- pip install oss2
+- python ./tools/ci/oss-uploader.py ${aos_key} ${aos_sec} tmp.txt `date +%s`.txt
