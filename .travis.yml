@@ -15,6 +15,8 @@ env:
     PATH="${PATH}:${ARM_BINDIR}:${ESP8266_BINDIR}:${ESP32_BINDIR}"
 before_install:
 - sudo apt update -qq
+- sudo apt purge oracle-java8-installer oracle-java9-installer
+- sudo apt autoremove
 - sudo apt install -qq gcc-multilib
 - sudo apt install -qq libssl-dev libssl-dev:i386
 - sudo apt install -qq libncurses5-dev libncurses5-dev:i386
