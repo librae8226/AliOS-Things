@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-CG_TOOL_ROOT := /Applications/ti/ccsv6/tools/compiler/gcc-arm-none-eabi-4_9-2015q3
+CG_TOOL_ROOT := /Applications/ti/ccsv8/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -68,7 +68,6 @@ ORDERED_OBJS += \
 "./m4/port_c.o" \
 "./m4/port_s.o" \
 -Wl,-T"../msp432p401r.lds" \
-"/Users/snowyang/workspace/MSP432_DriverLib_3_10_00_09/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib" \
 $(GEN_CMDS__FLAG) \
 -Wl,--start-group \
 -lm \
@@ -225,20 +224,19 @@ BIN_OUTPUTS__QUOTED += \
 all: iot_sdk.out
 
 # Tool invocations
-iot_sdk.out: $(OBJS) $(CMD_SRCS) $(LDS_SRCS) $(LIB_SRCS) $(GEN_CMDS)
-	@echo 'Building target: $@'
+iot_sdk.out: $(OBJS) $(CMD_SRCS) $(LDS_SRCS) $(A_SRCS) $(GEN_CMDS)
+	@echo 'Building target: "$@"'
 	@echo 'Invoking: GNU Linker'
-	"/Applications/ti/ccsv6/tools/compiler/gcc-arm-none-eabi-4_9-2015q3/bin/arm-none-eabi-gcc" -mcpu=cortex-m4 -fshort-wchar -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -DSYSINFO_OS_VERSION=\"APP-1.0.0\" -DSYSINFO_PRODUCT_MODEL=\"ALI_AOS_STM32L433RCTxP\" -DSYSINFO_DEVICE_NAME=\"STM32L433RCTxP\" -DSYSINFO_KERNEL_VERSION=\"AOS-R-1.3.0\" -DSYSINFO_APP_VERSION=\"APP-1.0.0\" -DSTDIO_UART=0 -DCONFIG_NO_TCPIP -DRHINO_CONFIG_TICK_TASK=0 -DCONFIG_AOS_KV_MULTIPTN_MODE -DCONFIG_AOS_KV_PTN=6 -DCONFIG_AOS_KV_SECOND_PTN=7 -DCONFIG_AOS_KV_PTN_SIZE=4096 -DCONFIG_AOS_KV_BUFFER_SIZE=8192 -D__BSD_VISIBLE -DRHINO_CONFIG_TICK_TASK=0 -D__MSP432P401R__ -DTARGET_IS_MSP432P4XX -DMX_DEBUG -ffunction-sections -fdata-sections -fsingle-precision-constant -g -gdwarf-3 -gstrict-dwarf -Wall -Wl,-Map,"iot_sdk.map" -Wl,--gc-sections -Wl,--no-wchar-size-warning -o"iot_sdk.out" $(ORDERED_OBJS)
-	@echo 'Finished building target: $@'
+	"/Applications/ti/ccsv8/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-gcc" -DSYSINFO_OS_VERSION=\"APP-1.0.0\" -DSYSINFO_PRODUCT_MODEL=\"ALI_AOS_STM32L433RCTxP\" -DSYSINFO_DEVICE_NAME=\"STM32L433RCTxP\" -DSYSINFO_KERNEL_VERSION=\"AOS-R-1.3.0\" -DSYSINFO_APP_VERSION=\"APP-1.0.0\" -DSTDIO_UART=0 -DCONFIG_NO_TCPIP -DRHINO_CONFIG_TICK_TASK=0 -DCONFIG_AOS_KV_MULTIPTN_MODE -DCONFIG_AOS_KV_PTN=6 -DCONFIG_AOS_KV_SECOND_PTN=7 -DCONFIG_AOS_KV_PTN_SIZE=4096 -DCONFIG_AOS_KV_BUFFER_SIZE=8192 -D__BSD_VISIBLE -D__MSP432P401R__ -DTARGET_IS_MSP432P4XX -DMX_DEBUG -ffunction-sections -fdata-sections -fsingle-precision-constant -g -gdwarf-3 -gstrict-dwarf -Wall -std=c99 -fshort-wchar -mthumb -Wl,-Map,"iot_sdk.map" -Wl,--gc-sections -mfloat-abi=hard -mfpu=fpv4-sp-d16 -Wl,--no-wchar-size-warning -o"iot_sdk.out" $(ORDERED_OBJS) $(A_SRCS)
+	@echo 'Finished building target: "$@"'
 	@echo ' '
-	@$(MAKE) --no-print-directory post-build
 
 iot_sdk.hex: $(EXE_OUTPUTS)
+	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: GNU Objcopy Utility'
-	"/Applications/ti/ccsv6/tools/compiler/gcc-arm-none-eabi-4_9-2015q3/bin/arm-none-eabi-objcopy"  $(EXE_OUTPUTS__QUOTED) "iot_sdk.hex"
-	@echo 'Finished building: $@'
+	"/Applications/ti/ccsv8/tools/compiler/gcc-arm-none-eabi-7-2017-q4-major/bin/arm-none-eabi-objcopy"  $(EXE_OUTPUTS__QUOTED) "iot_sdk.hex"
+	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
-	@$(MAKE) --no-print-directory post-build
 
 # Other Targets
 clean:
@@ -251,11 +249,8 @@ clean:
 	-@echo 'Finished clean'
 	-@echo ' '
 
-post-build:
-	-@echo ' '
-
 .PHONY: all clean dependents
-.SECONDARY: post-build
+.SECONDARY:
 
 -include ../makefile.targets
 

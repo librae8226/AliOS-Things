@@ -3,8 +3,8 @@
 ################################################################################
 
 # Add inputs and outputs from these tool invocations to the build variables 
-LIB_SRCS += \
-/Users/snowyang/workspace/MSP432_DriverLib_3_10_00_09/driverlib/MSP432P4xx/ccs/msp432p4xx_driverlib.lib 
+A_SRCS += \
+../msp432p4xx_driverlib.a 
 
 LDS_SRCS += \
 ../msp432p401r.lds 
@@ -62,5 +62,8 @@ C_SRCS__QUOTED += \
 "../main.c" \
 "../startup_msp432p401r_gcc.c" \
 "../system_msp432p401r.c" 
+
+A_SRCS__QUOTED += \
+"../msp432p4xx_driverlib.a" 
 
 

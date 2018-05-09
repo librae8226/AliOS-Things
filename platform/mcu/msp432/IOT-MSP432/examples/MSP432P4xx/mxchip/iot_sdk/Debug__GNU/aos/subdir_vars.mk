@@ -4,8 +4,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-/Users/snowyang/workspace/AliOS-Things/platform/mcu/msp432/aos/soc_impl.c \
-/Users/snowyang/workspace/AliOS-Things/platform/mcu/msp432/aos/trace_impl.c 
+/Users/librae/work/AliOS-Things/platform/mcu/msp432/aos/soc_impl.c \
+/Users/librae/work/AliOS-Things/platform/mcu/msp432/aos/trace_impl.c 
 
 C_DEPS += \
 ./aos/soc_impl.d \
@@ -24,7 +24,7 @@ C_DEPS__QUOTED += \
 "aos/trace_impl.d" 
 
 C_SRCS__QUOTED += \
-"/Users/snowyang/workspace/AliOS-Things/platform/mcu/msp432/aos/soc_impl.c" \
-"/Users/snowyang/workspace/AliOS-Things/platform/mcu/msp432/aos/trace_impl.c" 
+"/Users/librae/work/AliOS-Things/platform/mcu/msp432/aos/soc_impl.c" \
+"/Users/librae/work/AliOS-Things/platform/mcu/msp432/aos/trace_impl.c" 
 
 

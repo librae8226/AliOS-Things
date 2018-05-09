@@ -4,29 +4,29 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_buf_queue.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_dyn_mem_proc.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_err.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_event.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_idle.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm_blk.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm_debug.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mutex.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_obj.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_pend.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_queue.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_ringbuf.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sched.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sem.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_stats.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sys.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_task.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_task_sem.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_tick.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_time.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_timer.c \
-/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_workqueue.c 
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_buf_queue.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_dyn_mem_proc.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_err.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_event.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_idle.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm_blk.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm_debug.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mutex.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_obj.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_pend.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_queue.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_ringbuf.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sched.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sem.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_stats.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sys.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_task.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_task_sem.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_tick.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_time.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_timer.c \
+/Users/librae/work/AliOS-Things/kernel/rhino/core/k_workqueue.c 
 
 C_DEPS += \
 ./core/k_buf_queue.d \
@@ -129,28 +129,28 @@ C_DEPS__QUOTED += \
 "core/k_workqueue.d" 
 
 C_SRCS__QUOTED += \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_buf_queue.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_dyn_mem_proc.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_err.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_event.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_idle.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm_blk.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mm_debug.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_mutex.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_obj.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_pend.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_queue.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_ringbuf.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sched.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sem.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_stats.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_sys.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_task.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_task_sem.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_tick.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_time.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_timer.c" \
-"/Users/snowyang/workspace/AliOS-Things/kernel/rhino/core/k_workqueue.c" 
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_buf_queue.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_dyn_mem_proc.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_err.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_event.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_idle.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm_blk.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mm_debug.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_mutex.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_obj.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_pend.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_queue.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_ringbuf.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sched.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sem.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_stats.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_sys.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_task.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_task_sem.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_tick.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_time.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_timer.c" \
+"/Users/librae/work/AliOS-Things/kernel/rhino/core/k_workqueue.c" 
 
 
