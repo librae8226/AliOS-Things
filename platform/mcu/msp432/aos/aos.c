@@ -179,6 +179,7 @@ int main(void)
 
 	   krhino_start();
 	   */
+	aos_heap_set();
 	soc_init();
 	aos_init();
 	krhino_task_create(&demo_task_obj, "aos-init", 0,AOS_DEFAULT_APP_PRI, 

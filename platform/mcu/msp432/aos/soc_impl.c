@@ -54,10 +54,15 @@ k_mm_region_t g_mm_region[] = {{(uint8_t *)&Image$$ARM_LIB_HEAP$$Base, (size_t)&
 uint8_t g_heap_buf[HEAP_BUFFER_SIZE];
 k_mm_region_t g_mm_region[] = {{g_heap_buf, HEAP_BUFFER_SIZE}};
 #else /* GCC */
-extern void         *heap_start;
-extern void         *heap_len;
+extern void         *__heap_start__;
+extern void         *__heap_end__;
 /* heap_start and heap_len is set by linkscript(*.ld) */
-k_mm_region_t g_mm_region[] = {{(uint8_t*)&heap_start,(size_t)&heap_len}};
+k_mm_region_t g_mm_region[1];
+void aos_heap_set()
+{
+    g_mm_region[0].start = (uint8_t*)&__heap_start__;
+    g_mm_region[0].len   = (uint8_t *)&__heap_end__ - (uint8_t *)&__heap_start__;
+}
 #endif
 
 int           g_region_num  = sizeof(g_mm_region)/sizeof(k_mm_region_t);
