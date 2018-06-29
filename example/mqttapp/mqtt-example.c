@@ -11,6 +11,7 @@
 #include "aos/log.h"
 #include "aos/yloop.h"
 #include "aos/network.h"
+#include "aos/uData.h"
 #include <netmgr.h>
 #include <aos/kernel.h>
 #include <netmgr.h>
@@ -40,20 +41,71 @@ typedef struct {
 #define TOPIC_UPDATE            "/"PRODUCT_KEY"/"DEVICE_NAME"/update"
 #define TOPIC_ERROR             "/"PRODUCT_KEY"/"DEVICE_NAME"/update/error"
 #define TOPIC_GET               "/"PRODUCT_KEY"/"DEVICE_NAME"/get"
+#define TOPIC_DATA		        "/"PRODUCT_KEY"/"DEVICE_NAME"/data"
 
 #define MSG_LEN_MAX             (2048)
 
-int cnt = 0;
-static int is_subscribed = 0;
-
-#ifdef MQTT_PRESS_TEST
-static int sub_counter = 0;
-static int pub_counter = 0;
-#endif
 char msg_pub[128];
+static char temperature[5] = {0}, humidity[5] = {0};
 
-static void ota_init(void *pclient);
 int mqtt_client_example(void);
+
+void uData_report_demo(input_event_t *event, void *priv_data)
+{
+    udata_pkg_t buf;
+    if ((event == NULL) || (event->type != EV_UDATA)) {
+        return;
+    }
+
+    if (event->code == CODE_UDATA_REPORT_PUBLISH) {
+        int ret = 0;
+        ret = uData_report_publish(event, &buf);
+        if (ret != 0) {
+            return;
+        }
+        switch (buf.type) {
+            case UDATA_SERVICE_TEMP: {
+                temperature_data_t *temp = (temperature_data_t *)buf.payload;
+                //printf("temp: %.2f\n", temp->t/10.0f);
+                snprintf(temperature, sizeof(temperature), "%.2f", temp->t/10.0f);
+                printf("%s\n", temperature);
+                break;
+            }
+
+            case UDATA_SERVICE_HUMI: {
+                humidity_data_t *humi = (humidity_data_t *)buf.payload;
+                //printf("humi: %.2f\n", humi->h/10.0f);
+                snprintf(humidity, sizeof(humidity), "%.2f", humi->h/10.0f);
+                printf("%s\n", humidity);
+                break;
+            }
+            default:
+                break;
+        }
+    }
+}
+
+static int udata_sample(void)
+{
+    int ret = 0;
+
+    aos_register_event_filter(EV_UDATA, uData_report_demo, NULL);
+
+    ret = uData_subscribe(UDATA_SERVICE_HUMI);
+    if (ret != 0) {
+        LOG("%s %s %s %d\n", uDATA_STR, __func__, ERROR_LINE, __LINE__);
+        return -1;
+    }
+
+    ret = uData_subscribe(UDATA_SERVICE_TEMP);
+    if (ret != 0) {
+        LOG("%s %s %s %d\n", uDATA_STR, __func__, ERROR_LINE, __LINE__);
+        return -1;
+    }
+
+    return 0;
+}
+
 static void wifi_service_event(input_event_t *event, void *priv_data)
 {
     if (event->type != EV_WIFI) {
@@ -65,6 +117,7 @@ static void wifi_service_event(input_event_t *event, void *priv_data)
     }
     LOG("wifi_service_event!");
     mqtt_client_example();
+    udata_sample();
 }
 
 static void mqtt_sub_callback(char *topic, int topic_len, void *payload, int payload_len, void *ctx)
@@ -79,20 +132,7 @@ static void mqtt_sub_callback(char *topic, int topic_len, void *payload, int pay
         (char *)payload,
         payload_len);
     LOG("----");
-
-#ifdef MQTT_PRESS_TEST
-    sub_counter++;
-    int rc = mqtt_publish(TOPIC_UPDATE, IOTX_MQTT_QOS1, payload, payload_len);
-    if (rc < 0) {
-        LOG("IOT_MQTT_Publish fail, ret=%d", rc);
-    } else {
-        pub_counter++;
-    }
-    LOG("RECV=%d, SEND=%d", sub_counter, pub_counter);
-#endif MQTT_PRESS_TEST
 }
-
-
 
 /*
  * Subscribe the topic: IOT_MQTT_Subscribe(pclient, TOPIC_DATA, IOTX_MQTT_QOS1, _demo_message_arrive, NULL);
@@ -103,45 +143,18 @@ static void mqtt_work(void *parms)
 
     int rc = -1;
 
-    if (is_subscribed == 0) {
-        /* Subscribe the specific topic */
-        rc = mqtt_subscribe(TOPIC_GET, mqtt_sub_callback, NULL);
-        if (rc < 0) {
-            // IOT_MQTT_Destroy(&pclient);
-            LOG("IOT_MQTT_Subscribe() failed, rc = %d", rc);
-        }
-        is_subscribed = 1;
-        aos_schedule_call(ota_init, NULL);
+    int msg_len = snprintf(msg_pub, sizeof(msg_pub), "{\"temperature\":\"%s\", \"humidity\":\"%s\"}", temperature, humidity);
+    if (msg_len < 0) {
+	    LOG("Error occur! Exit program");
     }
-#ifndef MQTT_PRESS_TEST
-    else {
-        /* Generate topic message */
-        int msg_len = snprintf(msg_pub, sizeof(msg_pub), "{\"attr_name\":\"temperature\", \"attr_value\":\"%d\"}", cnt);
-        if (msg_len < 0) {
-            LOG("Error occur! Exit program");
-        }
-        rc = mqtt_publish(TOPIC_UPDATE, IOTX_MQTT_QOS1, msg_pub, msg_len);
-        if (rc < 0) {
-            LOG("error occur when publish");
-        }
+    rc = mqtt_publish(TOPIC_DATA, IOTX_MQTT_QOS0, msg_pub, msg_len);
+    if (rc < 0) {
+	    LOG("error occur when publish");
+    }
 
-        LOG("packet-id=%u, publish topic msg=%s", (uint32_t)rc, msg_pub);
-    }
-    cnt++;
-    if (cnt < 200) {
-        aos_post_delayed_action(3000, mqtt_work, NULL);
-    } else {
-        aos_cancel_delayed_action(3000, mqtt_work, NULL);
-        mqtt_unsubscribe(TOPIC_GET);
-        aos_msleep(200);
-        mqtt_deinit_instance();
-        is_subscribed = 0;
-        cnt = 0;
-    }
-#endif
+    LOG("packet-id=%u, publish topic msg=%s", (uint32_t)rc, msg_pub);
+    aos_post_delayed_action(3000, mqtt_work, NULL);
 }
-
-
 
 static void mqtt_service_event(input_event_t *event, void *priv_data)
 {
@@ -157,17 +170,6 @@ static void mqtt_service_event(input_event_t *event, void *priv_data)
     mqtt_work(NULL);
 }
 
-static int smartled_event_handler(int event_type, void *ctx)
-{
-    LOG("event_type %d\n", event_type);
-    switch (event_type) {
-        default:
-            break;
-    }
-
-    return 0;
-}
-
 static MqttContext mqtt;
 
 int mqtt_client_example(void)
@@ -181,7 +183,7 @@ int mqtt_client_example(void)
     mqtt.max_msg_size = MSG_LEN_MAX;
     mqtt.max_msgq_size = 8;
 
-    mqtt.event_handler = smartled_event_handler;
+    mqtt.event_handler = NULL;
     mqtt.delete_subdev = NULL;
     if (mqtt_init_instance(mqtt.productKey, mqtt.deviceName, mqtt.deviceSecret, mqtt.max_msg_size) < 0) {
         LOG("mqtt_init_instance failed\n");
@@ -192,17 +194,6 @@ int mqtt_client_example(void)
     return 0;
 
 }
-
-static void handle_mqtt(char *pwbuf, int blen, int argc, char **argv)
-{
-    mqtt_client_example();
-}
-
-static struct cli_command mqttcmd = {
-    .name = "mqtt",
-    .help = "factory mqtt",
-    .function = handle_mqtt
-};
 
 #ifdef AOS_ATCMD
 static void at_uart_configure(uart_dev_t *u)
@@ -224,7 +215,6 @@ int application_start(int argc, char *argv[])
             AT_RECV_FAIL_POSTFIX, AT_SEND_DELIMITER, 1000);
 #endif
 
-
 #ifdef WITH_SAL
     sal_init();
 #elif defined (CSP_LINUXHOST)
@@ -238,13 +228,6 @@ int application_start(int argc, char *argv[])
     netmgr_init();
     netmgr_start(false);
 
-    aos_cli_register_command(&mqttcmd);
-
     aos_loop_run();
     return 0;
-}
-
-static void ota_init(void *P)
-{
-    aos_post_event(EV_SYS, CODE_SYS_ON_START_FOTA, 0u);
 }

@@ -6,7 +6,7 @@ CONFIG_OTA_CH = mqtt
 
 $(NAME)_SOURCES     := mqtt-example.c
 
-$(NAME)_COMPONENTS := cli  protocol.linkkit.iotkit  connectivity.mqtt cjson fota netmgr framework.common 
+$(NAME)_COMPONENTS := cli  protocol.linkkit.iotkit  connectivity.mqtt cjson fota netmgr framework.common device.sensor uData
 
 LWIP := 0
 ifeq ($(LWIP),1)
@@ -19,5 +19,5 @@ GLOBAL_DEFINES += IOTX_WITHOUT_TLS  MQTT_DIRECT
 endif
 
 ifeq ($(press_test),1)
-GLOBAL_DEFINES += MQTT_PRESS_TEST
+#GLOBAL_DEFINES += MQTT_PRESS_TEST
 endif
