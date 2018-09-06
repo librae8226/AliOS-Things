@@ -101,7 +101,7 @@ def upload_esp8266(target, aos_path):
         error('Unsupported Operating System!')
     cmd = 'esptool.py'
     port = miniterm.ask_for_port()
-    image_path = os.path.join(os.getcwd(), 'out', target, 'binary', target + '-0x1000.bin').replace('\\', '/')
+    image_path = os.path.join(os.getcwd(), 'out', target, 'binary', target + '.bin').replace('\\', '/')
     boot_bin_path = os.path.join(aos_path, 'platform/mcu/esp8266/bsp/boot_v1.7_921600.bin').replace('\\', '/')
     init_bin_path = os.path.join(aos_path, 'platform/mcu/esp8266/bsp/esp_init_data_default.bin').replace('\\', '/')
     blank_bin_path = os.path.join(aos_path, 'platform/mcu/esp8266/bsp/blank.bin').replace('\\', '/')

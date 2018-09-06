@@ -42,7 +42,7 @@ extern int _text_start;
 static kinit_t kinit = {
     .argc = 0,
     .argv = NULL,
-    .cli_enable = 0
+    .cli_enable = 1
 };
 
 static void app_entry(void *arg)

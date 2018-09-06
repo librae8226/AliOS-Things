@@ -122,7 +122,7 @@ void ICACHE_FLASH_ATTR wifi_event_handler_cb(System_Event_t *event)
         return;
     }
 
-    printf("[WiFi] event %u\n", event->event_id);
+    //printf("[WiFi] event %u\n", event->event_id);
 
     switch (event->event_id) {
         case EVENT_STAMODE_DISCONNECTED:
